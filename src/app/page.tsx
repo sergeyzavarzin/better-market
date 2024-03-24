@@ -6,7 +6,6 @@
 import { type SVGProps } from "react";
 
 import { Button } from "~/components/ui/button";
-import { Input } from "~/components/ui/input";
 import Link from "next/link";
 import {
   CardTitle,
@@ -19,9 +18,7 @@ import { createClient } from "~/lib/supabase/server";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
-  PaginationLink,
   PaginationNext,
   PaginationPrevious,
 } from "~/components/ui/pagination";
@@ -121,7 +118,7 @@ export default async function IndexPage({ searchParams }: Props) {
           <div className="grid grid-cols-5 gap-4">
             {!!data?.length &&
               data?.map((item) => (
-                <Card key={item.id} className="w-full">
+                <Card key={item?.id} className="w-full">
                   <CardHeader>
                     <CardTitle>{item.name}</CardTitle>
                     <CardDescription>
@@ -130,7 +127,7 @@ export default async function IndexPage({ searchParams }: Props) {
                   </CardHeader>
                   <CardContent>
                     <img
-                      alt={item.name}
+                      alt={item.name ?? "placeholder"}
                       className="h-auto w-full"
                       height="150"
                       src={

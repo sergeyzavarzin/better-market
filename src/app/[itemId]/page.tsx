@@ -22,7 +22,7 @@ type Props = {
   };
 };
 
-export default async function Component({ params }: Props) {
+export default async function ItemPage({ params }: Props) {
   const { data: item } = await getItem(params.itemId.toString());
 
   if (!item) {
@@ -45,7 +45,7 @@ export default async function Component({ params }: Props) {
         </div>
         <form className="grid gap-4 md:gap-10">
           <Link href={`tg://user?id=${item.seller_id}`}>
-            <Button size="lg">Связаться с продавцом {item.seller_id}</Button>
+            <Button size="lg">Связаться с продавцом</Button>
           </Link>
         </form>
       </div>

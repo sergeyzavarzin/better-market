@@ -4,8 +4,10 @@ import { input } from "@inquirer/prompts";
 import { createClient } from "@supabase/supabase-js";
 import dayjs from "dayjs";
 import OpenAI from "openai";
-import { z } from "zod";
+import { type z } from "zod";
 import "dotenv/config";
+
+import { getItemParamsByMessageResult } from "~/lib/ai/validators";
 
 const apiId = Number(process.env.TG_API_ID!);
 const apiHash = process.env.TG_API_HASH!;
@@ -51,18 +53,16 @@ Examples:
 - "Продам пальто Mango Man. Размер: S. Состав: 37% шерсть. Цена: 100 лари" -> {"name": "Пальто Mango Man", "price": 100, "currency": "GEL", "valid": true}
 `;
 
-const getItemParamsByMessageResult = z.object({
-  name: z.string().optional().default(""),
-  price: z.number().optional().default(0),
-  currency: z.string().optional().default(""),
-  valid: z.boolean(),
-});
-
-const getItemParamsByMessage = async (
+export const getItemParamsByMessage = async (
   message: string,
+  config?: { ai: OpenAI; model: string; systemMessage?: string },
 ): Promise<z.infer<typeof getItemParamsByMessageResult>> => {
-  const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
+  const ai = config?.ai ?? openai;
+  const model = config?.model ?? "gpt-3.5-turbo";
+  const systemMessage = config?.systemMessage ?? SYSTEM_MESSAGE;
+
+  const response = await ai.chat.completions.create({
+    model,
     temperature: 0,
     // tools: [
     //   {
@@ -99,7 +99,7 @@ const getItemParamsByMessage = async (
     //   },
     // ],
     messages: [
-      { role: "system", content: SYSTEM_MESSAGE },
+      { role: "system", content: systemMessage },
 
       {
         role: "user",

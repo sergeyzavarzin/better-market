@@ -68,14 +68,8 @@ export default async function IndexPage({ searchParams }: Props) {
         {!!data?.length &&
           data?.map((item) => (
             <Link key={item?.id} href={`/${item.id}`}>
-              <Card className="w-full">
-                <CardHeader>
-                  <CardTitle>{item.name}</CardTitle>
-                  <CardDescription>
-                    {item.price} {item.currency}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
+              <Card className="h-full w-full">
+                <CardHeader className="p-4">
                   <Image
                     alt={item.name ?? "placeholder"}
                     className="h-auto w-full"
@@ -91,6 +85,14 @@ export default async function IndexPage({ searchParams }: Props) {
                     }}
                     width="250"
                   />
+                </CardHeader>
+                <CardContent className="p-4 pt-0">
+                  <CardTitle className="line-clamp-2 text-ellipsis">
+                    {item.name}
+                  </CardTitle>
+                  <CardDescription>
+                    {item.price} {item.currency}
+                  </CardDescription>
                 </CardContent>
               </Card>
             </Link>

@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
+
 import {
+  type CarouselApi,
   Carousel,
-  CarouselApi,
   CarouselContent,
   CarouselItem,
 } from "~/components/ui/carousel";
-import { useState } from "react";
 
 export const Images = ({ images }: { images: string[] }) => {
   const [api, setApi] = useState<CarouselApi>();

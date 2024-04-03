@@ -3,13 +3,6 @@
  * ~see https://v0.dev/t/vkisuzDC95a
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
-import {
-  CardTitle,
-  CardDescription,
-  CardHeader,
-  CardContent,
-  Card,
-} from "~/components/ui/card";
 import { createClient } from "~/lib/supabase/server";
 import {
   Pagination,
@@ -18,8 +11,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "~/components/ui/pagination";
-import Image from "next/image";
-import Link from "next/link";
+import { ItemCard } from "~/components/item-card";
 
 const PER_PAGE = 14;
 
@@ -66,37 +58,7 @@ export default async function IndexPage({ searchParams }: Props) {
       </h2>
       <div className="grid grid-cols-5 gap-4">
         {!!data?.length &&
-          data?.map((item) => (
-            <Link key={item?.id} href={`/${item.id}`}>
-              <Card className="h-full w-full">
-                <CardHeader className="p-4">
-                  <Image
-                    alt={item.name ?? "placeholder"}
-                    className="h-auto w-full"
-                    height="150"
-                    src={
-                      item?.images?.[0]
-                        ? `https://mdgcufdkeduqpujdalzp.supabase.co/storage/v1/object/public/files/${item.images?.[0]}`
-                        : "/placeholder.svg"
-                    }
-                    style={{
-                      aspectRatio: "250/150",
-                      objectFit: "cover",
-                    }}
-                    width="250"
-                  />
-                </CardHeader>
-                <CardContent className="p-4 pt-0">
-                  <CardTitle className="line-clamp-2 text-ellipsis">
-                    {item.name}
-                  </CardTitle>
-                  <CardDescription>
-                    {item.price} {item.currency}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+          data?.map((item) => <ItemCard key={item.id} item={item} />)}
       </div>
       <Pagination className="mt-5">
         <PaginationContent>

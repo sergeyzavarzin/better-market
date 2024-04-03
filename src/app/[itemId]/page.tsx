@@ -7,6 +7,9 @@ import { Button } from "~/components/ui/button";
 import { createClient } from "~/lib/supabase/server";
 import Link from "next/link";
 import { Images } from "~/app/[itemId]/images";
+import { setWatched } from "~/app/actions";
+import { SetWatched } from "~/app/[itemId]/set-watched";
+// import { SetWatched } from "~/app/[itemId]/set-watched";
 
 const getItem = async (id: string) => {
   const supabase = createClient();
@@ -50,6 +53,7 @@ export default async function ItemPage({ params }: Props) {
         </form>
       </div>
       <Images images={item?.images ?? []} />
+      <SetWatched itemId={item.id} />
     </div>
   );
 }

@@ -41,7 +41,7 @@ export const Header = () => (
         </Link>
       </div>
       <div className="flex space-x-4">
-        <Link className="text-sm" href="#">
+        <Link className="text-sm" href="/watched">
           Вы смотрели
         </Link>
         <Link className="text-sm" href="#">

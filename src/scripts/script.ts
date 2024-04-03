@@ -64,57 +64,15 @@ export const getItemParamsByMessage = async (
   const response = await ai.chat.completions.create({
     model,
     temperature: 0,
-    // tools: [
-    //   {
-    //     type: "function",
-    //     function: {
-    //       name: "transformTextToParams",
-    //       description:
-    //         "Refactor message content for database entry: Convert product/service sale information into database parameters. Include functionality to aggregate data for messages containing multiple products. \n",
-    //       parameters: {
-    //         type: "object",
-    //         properties: {
-    //           name: {
-    //             type: "string",
-    //             description: "The grouped name of the product or service",
-    //           },
-    //           description: {
-    //             type: "string",
-    //             description:
-    //               "The grouped description of the product or service",
-    //           },
-    //           price: {
-    //             type: "number",
-    //             description: "The price of the product or service",
-    //           },
-    //           currency: {
-    //             type: "string",
-    //             description:
-    //               "The currency code. Example: $,usd,долларов,баксов -> USD; р,руб,рублей -> RUB; lari,l,L,лар,лари,gel -> GEL;",
-    //           },
-    //         },
-    //         required: ["name", "description", "price", "currency"],
-    //       },
-    //     },
-    //   },
-    // ],
     messages: [
       { role: "system", content: systemMessage },
 
       {
         role: "user",
         content:
-          'Продам 27" 4K монитор LG 27UP550\n' +
-          "\n" +
-          "Разрешение 3840x2160, UHD, HDR, состояние прекрасное.\n" +
-          "\n" +
-          "Использовал 2 месяца, сейчас он живет в коробке.\n" +
-          "\n" +
-          "Регулируется во всех плоскостях, есть масса входов и выходов, из минусов - «не готовит завтраки»\n" +
-          "\n" +
-          "Цена 400$ \n" +
-          "#монитор",
+          'Продам 27" 4K монитор LG 27UP550. Разрешение 3840x2160, UHD, HDR, состояние прекрасное. Использовал 2 месяца, сейчас он живет в коробке. Регулируется во всех плоскостях, есть масса входов и выходов, из минусов - «не готовит завтраки». Цена 400$. #монитор',
       },
+
       {
         role: "assistant",
         content:
@@ -134,36 +92,6 @@ export const getItemParamsByMessage = async (
   return getItemParamsByMessageResult.parse(
     JSON.parse(response.choices[0].message.content),
   );
-
-  // if (response.choices[0]?.message.function_call) {
-  //   const functionName: string = response.choices[0].message.function_call.name;
-  //
-  //   try {
-  //     switch (functionName) {
-  //       case "getOrganizationByName":
-  //         const organizationResponse = await getOrganizationByName(
-  //           JSON.parse(
-  //             response.choices[0].message.function_call.arguments,
-  //           ) as SearchArgs,
-  //         );
-  //         return { response: organizationResponse, search: null };
-  //       case "getApolloSearchParamsOrganizationByName":
-  //       default:
-  //         const search = await getApolloSearchParamsOrganizationByName(
-  //           JSON.parse(
-  //             response.choices[0].message.function_call.arguments,
-  //           ) as SearchArgs,
-  //         );
-  //         return { response: null, search };
-  //     }
-  //   } catch (error: unknown) {
-  //     throw new Error(
-  //       `[openai] error calling function ${functionName}: ${JSON.stringify(
-  //         error,
-  //       )}`,
-  //     );
-  //   }
-  // }
 };
 
 const main = async () => {
